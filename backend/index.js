@@ -5,6 +5,7 @@ import { UserModel, NotesModel } from './db.js';
 import jwt from 'jsonwebtoken';
 import { auth } from './middleware/auth.js';
 import bcrypt from 'bcrypt';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -12,12 +13,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_CONNECTION_STRING)
 
+app.use(cors());
 app.use(express.json());
 
-app.get('/sign-in',async (req,res)=>{
+app.post('/sign-in',async (req,res)=>{
     const email = req.body.email;
     const password = req.body.password;
-
+    
     const user = await UserModel.findOne({
         email,
     });
