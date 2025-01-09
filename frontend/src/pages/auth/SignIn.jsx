@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Input } from "../../components/common/Input"
 import { Button } from "../../components/common/Button"
 import { useState } from "react"
 import axios from "axios"
+
+axios.defaults.withCredentials = true;
 
 const SignIn = ()=>{
     const [signInInfo, setSignInInfo] = useState({
@@ -11,6 +13,7 @@ const SignIn = ()=>{
     });
 
     const [errorMessage, setErrorMessage] = useState("")
+    const navigate = useNavigate()
 
     const login = async () => {
         try{
@@ -18,6 +21,7 @@ const SignIn = ()=>{
                 email: signInInfo.email,
                 password: signInInfo.password
             })
+            navigate("/notes")
         } catch(error){
             if( error && error.response.status == 404){
                 setErrorMessage("User doesn't exist")
